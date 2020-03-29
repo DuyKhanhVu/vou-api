@@ -6,7 +6,7 @@
     "mysql":{
         "host":"localhost",
         "port": 3306,
-        "database": "vou_db",
+        "database": "vou",
         "user":"root",
         "password":"03091998"
     }
