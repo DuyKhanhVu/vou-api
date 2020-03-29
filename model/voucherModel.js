@@ -3,7 +3,7 @@ var conn = db.getConnection();
 var q = require("q");
 
 function GetAllByIdPartner(partner_id) {
-    if (id) {
+    if (partner_id) {
         var defer = q.defer();
         var query = conn.query(`SELECT * FROM voucher WHERE ?`, { partner_id: partner_id }, function (err, result) {
             if (err) {

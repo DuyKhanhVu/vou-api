@@ -51,7 +51,6 @@ function Update(table, data, id) {
     if (data) {
         var defer = q.defer();
         var query = conn.query(`UPDATE ${table} SET ? WHERE id = ${id}`, data, function (err, result) {
-            console.log(query);
             if (err) {
                 console.log(err);
                 defer.reject(err);
@@ -65,7 +64,6 @@ function Update(table, data, id) {
 }
 
 function DeleteById(table, id) {
-
     var defer = q.defer();
     var query = conn.query(`DELETE FROM ${table} WHERE ?`, { id: id }, function (err, result) {
         if (err) {
