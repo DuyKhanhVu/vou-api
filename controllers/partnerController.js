@@ -3,6 +3,15 @@ var voucherModel = require('../model/voucherModel');
 var CodeGenerator = require('node-code-generator');
 var QRCode = require('qrcode')
 
+async function getAllPartner(req, res, next) {
+    try {
+        var result = await model.GetAll('partner');
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 async function createVoucher(req, res, next) {
     // Generate an array of random unique codes according to the provided pattern:
     var generator = new CodeGenerator();
@@ -38,6 +47,7 @@ async function getAllVoucher(req, res, next) {
 }
 
 module.exports = {
+    getAllPartner: getAllPartner,
     createVoucher: createVoucher,
     getAllVoucher: getAllVoucher
 }
