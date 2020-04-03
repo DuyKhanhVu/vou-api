@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 var usersRouter = require('./routes/users');
 var partnerRouter = require('./routes/partner');
@@ -11,6 +12,8 @@ var voucherRouter = require('./routes/voucher');
 var gameRouter = require('./routes/game');
 
 var app = express();
+
+app.use(cors());
 
 //body parser
 app.use(bodyParser.json());
