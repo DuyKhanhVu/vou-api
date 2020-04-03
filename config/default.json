@@ -4,10 +4,10 @@
         "port": 3000
     },
     "mysql":{
-        "host":"localhost",
+        "host":"remotemysql.com",
         "port": 3306,
-        "database": "vou",
-        "user":"root",
-        "password":"03091998"
+        "database": "qv019aMJ2q",
+        "user":"qv019aMJ2q",
+        "password":"PkZFcze6h1"
     }
 }
