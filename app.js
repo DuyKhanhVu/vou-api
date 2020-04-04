@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+var authRouter = require('./routes/auth');
 var usersRouter = require('./routes/users');
 var partnerRouter = require('./routes/partner');
 var voucherRouter = require('./routes/voucher');
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/partner', partnerRouter);
 app.use('/voucher', voucherRouter);
