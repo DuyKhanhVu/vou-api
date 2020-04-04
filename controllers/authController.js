@@ -5,10 +5,13 @@ var userModel = require('../model/userModel');
 async function signIn(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
-    var checkUser = await userModel.GetUserByUsername(username);
     try {
-        var result = await model.GetAll('partner');
-        res.status(200).json(result)
+        var user = await userModel.GetUserByUsername(username);
+        if (bcrypt.compareSync(password, user[0].password)) {
+            res.status(200).json({ message: 'Sign in is successfully' })
+        } else {
+            res.status(401).json({ message: 'The username or password you entered is incorrect.' })
+        }
     } catch (err) {
         res.status(400).json(err)
     }
@@ -34,25 +37,14 @@ async function signUp(req, res, next) {
 
         try {
             var result = await model.Create('user', user);
-            res.status(200).json({message: `You have successfully created your account. Your id is ${result.insertId}`})
+            res.status(200).json({ message: `You have successfully created your account. Your id is ${result.insertId}` })
         } catch (err) {
             res.status(400).json(err)
         }
     }
 }
 
-async function getAllVoucher(req, res, next) {
-    var partner_id = req.params.partner_id;
-    try {
-        var result = await voucherModel.GetAllByIdPartner(partner_id);
-        res.status(200).json(result)
-    } catch (err) {
-        res.status(400).json(err)
-    }
-}
-
 module.exports = {
     signIn: signIn,
     signUp: signUp,
-    getAllVoucher: getAllVoucher
 }
