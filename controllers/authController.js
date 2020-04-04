@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+var config = require("config");
 var model = require('../model/model');
 var userModel = require('../model/userModel');
 
@@ -8,7 +10,10 @@ async function signIn(req, res, next) {
     try {
         var user = await userModel.GetUserByUsername(username);
         if (bcrypt.compareSync(password, user[0].password)) {
-            res.status(200).json({ message: 'Sign in is successfully' })
+            var payload = { username: user[0].username };
+            var jwtToken = jwt.sign(payload, config.get("jwtSecret"), { expiresIn: "6h" });
+            console.log('jwtToken: ' + jwtToken);
+            res.status(200).json({ message: 'Sign in is successfully', token: jwtToken})
         } else {
             res.status(401).json({ message: 'The username or password you entered is incorrect.' })
         }

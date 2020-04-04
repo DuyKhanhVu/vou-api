@@ -9,5 +9,6 @@
         "database": "qv019aMJ2q",
         "user":"qv019aMJ2q",
         "password":"PkZFcze6h1"
-    }
+    },
+    "jwtSecret": "vou-app-jwtsecret"
 }
