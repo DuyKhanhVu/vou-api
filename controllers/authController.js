@@ -10,9 +10,10 @@ async function signIn(req, res, next) {
     try {
         var user = await userModel.GetUserByUsername(username);
         if (bcrypt.compareSync(password, user[0].password)) {
-            var payload = { username: user[0].username };
+            delete user[0]["password"];
+            delete user[0]["token"];
+            var payload = { user: user };
             var jwtToken = jwt.sign(payload, config.get("jwtSecret"), { expiresIn: "6h" });
-            console.log('jwtToken: ' + jwtToken);
             res.status(200).json({ message: 'Sign in is successfully', token: jwtToken})
         } else {
             res.status(401).json({ message: 'The username or password you entered is incorrect.' })
@@ -42,7 +43,7 @@ async function signUp(req, res, next) {
 
         try {
             var result = await model.Create('user', user);
-            res.status(200).json({ message: `You have successfully created your account. Your id is ${result.insertId}` })
+            res.status(200).json({ message: `You have successfully created your account`, user: user })
         } catch (err) {
             res.status(400).json(err)
         }
