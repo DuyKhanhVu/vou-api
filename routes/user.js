@@ -7,4 +7,7 @@ router.use(middleware.isAuthenticated,);
 
 router.get('/me', userController.getMyProfile);
 
+router.get('/:id', userController.getUserById);
+
+router.patch('/me', userController.updateMyProfile);
 module.exports = router;
