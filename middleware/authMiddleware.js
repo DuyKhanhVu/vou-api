@@ -13,9 +13,9 @@ async function isAuthenticated(req, res, next) {
                 res.status(401).json({message: 'Unauthorized user!'});
             } else {
                 try {
-                    var user = await userModel.GetUserByUsername(payload.username);
+                    var user = await userModel.GetUserByUsername(payload.user[0].username);
                     if (user) {
-                        req.user = user;
+                        req.user = user[0];
                         next();
                     } else {
                         res.status(401).json({ message: 'Unauthorized user!' });

@@ -7,7 +7,7 @@ var logger = require('morgan');
 var cors = require('cors');
 
 var authRouter = require('./routes/auth');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/user');
 var partnerRouter = require('./routes/partner');
 var voucherRouter = require('./routes/voucher');
 var gameRouter = require('./routes/game');
@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', authRouter);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/partner', partnerRouter);
 app.use('/voucher', voucherRouter);
 app.use('/game', gameRouter);
