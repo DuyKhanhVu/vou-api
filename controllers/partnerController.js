@@ -14,26 +14,36 @@ async function getAllPartner(req, res, next) {
 
 async function createVoucher(req, res, next) {
     // Generate an array of random unique codes according to the provided pattern:
+    if (req.body.promo_code.length > 10) {
+        return res.status(400).json({ error: "Promo code too long." })
+    }
     var generator = new CodeGenerator();
-    var codes = generator.generateCodes('**********', 10, {});
+    var codes = generator.generateCodes(`${req.body.promo_code}**********`, req.body.count, {});
 
-    const qr_code = await QRCode.toDataURL(codes[0])
-    var voucher = {
-        code: codes[0],
-        qr_code: qr_code,
-        start_time: req.body.startTime,
-        end_time: req.body.endTime,
-        discount: req.body.discount,
-        partner_id: req.params.partner_id
-    }
+    var vouchers = []
 
-    try {
-        var result = await model.Create('voucher', voucher);
-        voucher.id = result.insertId;
-        res.status(200).json(voucher)
-    } catch (err) {
-        res.status(400).json(err)
+    for (const code of codes) {
+        let qr_code = await QRCode.toDataURL(code)
+        let voucher = {
+            promo_code: req.body.promo_code,
+            code: code,
+            qr_code: qr_code,
+            start_time: req.body.start_time,
+            end_time: req.body.end_time,
+            discount: req.body.discount,
+            partner_id: req.params.partner_id
+        }
+
+        try {
+            var result = await model.Create('voucher', voucher);
+            voucher.id = result.insertId;
+            vouchers.push(voucher)
+        } catch (err) {
+            res.status(400).json(err)
+        }
     }
+    return res.status(200).json(vouchers)
+
 }
 
 async function getAllVoucher(req, res, next) {

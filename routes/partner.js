@@ -3,7 +3,7 @@ var router = express.Router();
 var partnerController = require('../controllers/partnerController');
 var middleware = require('../middleware/authMiddleware');
 
-router.use(middleware.isAuthenticated,);
+router.use(middleware.isAuthenticatedPartner);
 
 router.get('/', partnerController.getAllPartner);
 

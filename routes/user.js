@@ -3,7 +3,7 @@ var router = express.Router();
 var middleware = require('../middleware/authMiddleware');
 var userController = require('../controllers/userController');
 
-router.use(middleware.isAuthenticated,);
+router.use(middleware.isAuthenticated);
 
 router.get('/me', userController.getMyProfile);
 

@@ -9,9 +9,9 @@ async function signIn(req, res, next) {
     var password = req.body.password;
     try {
         var user = await userModel.GetUserByUsername(username);
-        if (bcrypt.compareSync(password, user[0].password)) {
-            delete user[0]["password"];
-            delete user[0]["token"];
+        if (bcrypt.compareSync(password, user.password)) {
+            delete user["password"];
+            delete user["refresh_token"];
             var payload = { user: user };
             var jwtToken = jwt.sign(payload, config.get("jwtSecret"), { expiresIn: "6h" });
             res.status(200).json({ message: 'Sign in is successfully', token: jwtToken})
