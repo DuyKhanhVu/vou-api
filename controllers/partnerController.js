@@ -5,7 +5,10 @@ var QRCode = require('qrcode')
 
 async function getAllPartner(req, res, next) {
     try {
-        var result = await model.GetAll('partner');
+        var result = await model.GetAllByField('user','is_partner', true);
+        delete result["password"]
+        delete result["refresh_token"]
+        delete result["is_partner"]
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -31,7 +34,7 @@ async function createVoucher(req, res, next) {
             start_time: req.body.start_time,
             end_time: req.body.end_time,
             discount: req.body.discount,
-            partner_id: req.params.partner_id
+            partner_id: req.user.id
         }
 
         try {
@@ -47,7 +50,7 @@ async function createVoucher(req, res, next) {
 }
 
 async function getAllVoucher(req, res, next) {
-    var partner_id = req.params.partner_id;
+    var partner_id = req.user.id;
     try {
         var result = await voucherModel.GetAllByIdPartner(partner_id);
         res.status(200).json(result)
