@@ -2,7 +2,7 @@ var db = require("../common/database");
 var conn = db.getConnection();
 var q = require("q");
 
-function Create(table, data, id) {
+function Create(table, data) {
     if (data) {
         var defer = q.defer();
         var query = conn.query(`INSERT INTO ${table} SET ?`, data, function (err, result) {

@@ -27,7 +27,7 @@ function GetOneByPartnerId(partner_id) {
                     console.log(err);
                     defer.reject(err);
                 } else {
-                    defer.resolve(result);
+                    defer.resolve(result[0]);
                 }
             });
         return defer.promise;

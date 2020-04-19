@@ -13,12 +13,22 @@ async function getVoucherById(req, res, next) {
 
 async function getVoucherByPartnerId(req, res, next) {
     var partner_id = req.params.partner_id;
+    var result = {}
     try {
-        var result = await voucherModel.GetOneByPartnerId(partner_id);
+        result = await voucherModel.GetOneByPartnerId(partner_id);
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
     }
+
+    await model.Update("voucher", {available: false}, result.id);
+    user_voucher = {
+        user_id: req.user.id,
+        voucher_id: result.id,
+        available: true,
+        create_at: new Date(),
+    }
+    await model.Create("user_voucher", user_voucher);
 }
 
 async function updateVoucherById(req, res, next) {
