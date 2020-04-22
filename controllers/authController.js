@@ -30,7 +30,7 @@ async function signUp(req, res, next) {
     var checkUser = await userModel.GetUserByUsername(username);
     if ((password.length < 6) || (password.length > 16)) {
         res.status(400).json({ message: 'That password is to short (or too long). Please make sure your password is between 6 and 16 characters.' })
-    } else if (checkUser.length > 0) {
+    } else if (checkUser > 0) {
         res.status(409).json({ message: 'username have been exists' })
     } else {
         var salt = 8;
