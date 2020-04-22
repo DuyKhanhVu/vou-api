@@ -1,4 +1,5 @@
 var model = require('../model/model');
+var userVoucherModel = require('../model/userVoucherModel');
 
 async function getMyProfile(req, res, next) {
     delete req.user.password
@@ -31,8 +32,20 @@ async function updateMyProfile(req, res, next) {
         }
     }
 }
+
+async function getAllMyVoucher(req, res, next) {
+    var id = req.user.id;
+    try {
+        var result = await userVoucherModel.GetAllUserVoucherByUserId(id);
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 module.exports = {
     getMyProfile: getMyProfile,
     getUserById: getUserById,
-    updateMyProfile: updateMyProfile
+    updateMyProfile: updateMyProfile,
+    getAllMyVoucher: getAllMyVoucher
 }

@@ -1,5 +1,6 @@
 var model = require('../model/model');
 var voucherModel = require('../model/voucherModel');
+var userVoucherModel = require('../model/userVoucherModel');
 
 async function getVoucherById(req, res, next) {
     var id = req.params.id;

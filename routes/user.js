@@ -10,4 +10,6 @@ router.get('/me', userController.getMyProfile);
 router.get('/:id', userController.getUserById);
 
 router.patch('/me', userController.updateMyProfile);
+
+router.get('/voucher/me', userController.getAllMyVoucher);
 module.exports = router;
