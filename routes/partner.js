@@ -13,4 +13,6 @@ router.post('/voucher', partnerController.createVoucher);
 
 router.get('/voucher', partnerController.getAllVoucher);
 
+router.get('/user_voucher', partnerController.getAllUserVoucher);
+
 module.exports = router;

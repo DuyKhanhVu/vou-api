@@ -1,5 +1,6 @@
 var model = require('../model/model');
 var voucherModel = require('../model/voucherModel');
+var userVoucherModel = require('../model/userVoucherModel');
 var CodeGenerator = require('node-code-generator');
 var QRCode = require('qrcode')
 
@@ -59,8 +60,19 @@ async function getAllVoucher(req, res, next) {
     }
 }
 
+async function getAllUserVoucher(req, res, next) {
+    var partner_id = req.user.id;
+    try {
+        var result = await userVoucherModel.GetAllUserVoucherByIdPartner(partner_id);
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 module.exports = {
     getAllPartner: getAllPartner,
     createVoucher: createVoucher,
-    getAllVoucher: getAllVoucher
+    getAllVoucher: getAllVoucher,
+    getAllUserVoucher: getAllUserVoucher
 }
