@@ -35,9 +35,7 @@ async function getVoucherByPartnerId(req, res, next) {
 async function updateVoucherById(req, res, next) {
     var id = req.params.id;
     var voucher = {
-        start_time: req.body.startTime,
-        end_time: req.body.endTime,
-        discount: req.body.discount
+        ...req.body
     }
     try {
         var result = await model.Update("voucher", voucher, id);
