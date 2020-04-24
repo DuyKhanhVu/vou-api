@@ -27,7 +27,7 @@ async function getVoucherByPartnerId(req, res, next) {
         user_id: req.user.id,
         voucher_id: result.id,
         available: true,
-        create_at: new Date(),
+        created_at: new Date(),
     }
     await model.Create("user_voucher", user_voucher);
 }
