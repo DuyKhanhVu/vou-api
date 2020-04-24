@@ -29,7 +29,7 @@ function GetAllUserVoucherByUserId(user_id) {
                     console.log(err);
                     defer.reject(err);
                 } else {
-                    defer.resolve(result[0]);
+                    defer.resolve(result);
                 }
             });
         return defer.promise;

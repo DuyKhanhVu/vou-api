@@ -13,7 +13,7 @@ async function signIn(req, res, next) {
             delete user["password"];
             delete user["refresh_token"];
             var payload = { user: user };
-            var jwtToken = jwt.sign(payload, config.get("jwtSecret"), { expiresIn: "6h" });
+            var jwtToken = jwt.sign(payload, config.get("jwtSecret"), { expiresIn: "12h" });
             res.status(200).json({ message: 'Sign in is successfully', token: jwtToken})
         } else {
             res.status(401).json({ message: 'The username or password you entered is incorrect.' })
