@@ -35,6 +35,7 @@ async function createVoucher(req, res, next) {
             start_time: req.body.start_time,
             end_time: req.body.end_time,
             discount: req.body.discount,
+            description: req.body.description,
             partner_id: req.user.id
         }
 
