@@ -9,6 +9,8 @@ router.get('/:id', voucherController.getVoucherById);
 
 router.get('/partner/:partner_id', voucherController.getVoucherByPartnerId);
 
+router.use(middleware.isAuthenticatedPartner);
+
 router.delete('/:id', voucherController.deleteVoucherById);
 
 router.patch('/:id', voucherController.updateVoucherById);

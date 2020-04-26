@@ -6,11 +6,13 @@ var QRCode = require('qrcode')
 
 async function getAllPartner(req, res, next) {
     try {
-        var result = await model.GetAllByField('user','is_partner', true);
-        delete result["password"]
-        delete result["refresh_token"]
-        delete result["is_partner"]
-        res.status(200).json(result)
+        var results = await model.GetAll('partner');
+        for (const result of results) {
+            delete result["password"]
+            delete result["refresh_token"]
+            delete result["is_partner"]
+        }
+        res.status(200).json(results)
     } catch (err) {
         res.status(400).json(err)
     }

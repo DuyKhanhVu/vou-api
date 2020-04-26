@@ -19,7 +19,7 @@ async function signIn(req, res, next) {
             res.status(401).json({ message: 'The username or password you entered is incorrect.' })
         }
     } catch (err) {
-        res.status(400).json(err)
+        res.status(401).json({message: 'The username or password you entered is incorrect.'})
     }
 }
 
