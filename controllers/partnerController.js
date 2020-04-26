@@ -18,6 +18,19 @@ async function getAllPartner(req, res, next) {
     }
 }
 
+async function getPartnerById(req, res, next) {
+    var id = req.params.id;
+    try {
+        var result = await model.GetById('partner', id);
+        delete result[0]["password"]
+        delete result[0]["refresh_token"]
+        delete result[0]["is_partner"]
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 async function createVoucher(req, res, next) {
     // Generate an array of random unique codes according to the provided pattern:
     if (req.body.promo_code.length > 10) {
@@ -75,6 +88,7 @@ async function getAllUserVoucher(req, res, next) {
 
 module.exports = {
     getAllPartner: getAllPartner,
+    getPartnerById: getPartnerById,
     createVoucher: createVoucher,
     getAllVoucher: getAllVoucher,
     getAllUserVoucher: getAllUserVoucher

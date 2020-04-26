@@ -8,6 +8,8 @@ router.use(middleware.isAuthenticated);
 
 router.get('/', partnerController.getAllPartner);
 
+router.get('/:id', partnerController.getPartnerById);
+
 router.use(middleware.isAuthenticatedPartner);
 
 router.post('/voucher', partnerController.createVoucher);
