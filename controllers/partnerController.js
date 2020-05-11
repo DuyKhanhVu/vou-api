@@ -33,9 +33,9 @@ async function getPartnerById(req, res, next) {
 
 async function createVoucher(req, res, next) {
     // Generate an array of random unique codes according to the provided pattern:
-    if (req.body.promo_code.length > 10) {
-        return res.status(400).json({ error: "Promo code too long." })
-    }
+    if (req.body.promo_code.length > 10) {return res.status(400).json({ error: "Promo code too long." })}
+    if (!req.body.campaign_id) {return res.status(400).json({error: "campaign_id is required"})}
+    
     var generator = new CodeGenerator();
     var codes = generator.generateCodes(`${req.body.promo_code}**********`, req.body.count, {});
 
@@ -51,7 +51,7 @@ async function createVoucher(req, res, next) {
             end_time: req.body.end_time,
             discount: req.body.discount,
             description: req.body.description,
-            partner_id: req.user.id
+            campaign_id: req.body.campaign_id
         }
 
         try {

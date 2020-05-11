@@ -1,4 +1,5 @@
 var userModel = require('../model/userModel');
+var partnerModel = require('../model/partnerModel');
 var config = require('config');
 var jwt = require('jsonwebtoken');
 
@@ -41,8 +42,8 @@ async function isAuthenticatedPartner(req, res, next) {
                 res.status(401).json({message: 'Unauthorized user!'});
             } else {
                 try {
-                    var user = await userModel.GetUserByUsername(payload.user.username);
-                    if (user && user.is_partner) {
+                    var user = await partnerModel.GetPartnerByUsername(payload.user.username);
+                    if (user) {
                         req.user = user;
                         next();
                     } else {

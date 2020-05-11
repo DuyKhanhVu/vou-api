@@ -5,14 +5,15 @@ var q = require("q");
 function GetAllByIdPartner(partner_id) {
     if (partner_id) {
         var defer = q.defer();
-        var query = conn.query(`SELECT * FROM voucher WHERE ?`, { partner_id: partner_id }, function (err, result) {
-            if (err) {
-                console.log(err);
-                defer.reject(err);
-            } else {
-                defer.resolve(result);
-            }
-        });
+        var query = conn.query(`SELECT voucher.* FROM voucher, campaign WHERE voucher.campaign_id = campaign.id AND campaign.partner_id = ${partner_id}`,
+            function (err, result) {
+                if (err) {
+                    console.log(err);
+                    defer.reject(err);
+                } else {
+                    defer.resolve(result);
+                }
+            });
         return defer.promise;
     }
     return false;
@@ -21,7 +22,8 @@ function GetAllByIdPartner(partner_id) {
 function GetOneByPartnerId(partner_id) {
     if (partner_id) {
         var defer = q.defer();
-        var query = conn.query(`SELECT * FROM voucher WHERE ? AND available = true LIMIT 1`, { partner_id: partner_id },
+        var query = conn.query(`SELECT voucher.* FROM voucher, campaign 
+                                WHERE voucher.campaign_id = campaign.id AND campaign.partner_id = ${partner_id} AND available = 1 LIMIT 1`,
             function (err, result) {
                 if (err) {
                     console.log(err);
