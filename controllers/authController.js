@@ -49,7 +49,7 @@ async function signUp(req, res, next) {
 
         try {
             result = await model.Create('user', user);
-            if (req.body.id_partner) {
+            if (req.body.is_partner) {
                 user.id = result.insertId;
                 await model.Create('partner', user);
             }
