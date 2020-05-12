@@ -55,6 +55,9 @@ async function signUp(req, res, next) {
             }
             res.status(200).json({ message: `You have successfully created your account`, user: user })
         } catch (err) {
+            if (err.code == 'ER_DUP_ENTRY') {
+                return res.status(409).json({message: `Username has already been taken`})
+            }
             res.status(400).json(err)
         }
     }

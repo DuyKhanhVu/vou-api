@@ -7,7 +7,7 @@ var QRCode = require('qrcode')
 
 async function getAllPartner(req, res, next) {
     try {
-        var results = await partnerModel.GetAllPartner('partner');
+        var results = await partnerModel.GetAllPartner();
         for (const result of results) {
             delete result["password"]
             delete result["refresh_token"]
