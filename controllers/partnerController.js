@@ -1,12 +1,13 @@
 var model = require('../model/model');
 var voucherModel = require('../model/voucherModel');
 var userVoucherModel = require('../model/userVoucherModel');
+var partnerModel = require('../model/partnerModel');
 var CodeGenerator = require('node-code-generator');
 var QRCode = require('qrcode')
 
 async function getAllPartner(req, res, next) {
     try {
-        var results = await model.GetAll('partner');
+        var results = await partnerModel.GetAllPartner('partner');
         for (const result of results) {
             delete result["password"]
             delete result["refresh_token"]

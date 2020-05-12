@@ -18,6 +18,20 @@ function GetPartnerByUsername(username) {
     return false;
 }
 
+function GetAllPartner() {
+    var defer = q.defer();
+    var query = conn.query(`SELECT * FROM user WHERE id IN (SELECT id FROM partner)`, function (err, result) {
+        if (err) {
+            console.log(err);
+            defer.reject(err);
+        } else {
+            defer.resolve(result);
+        }
+    });
+    return defer.promise;
+}
+
 module.exports = {
-    GetPartnerByUsername: GetPartnerByUsername
+    GetPartnerByUsername: GetPartnerByUsername,
+    GetAllPartner: GetAllPartner
 }
