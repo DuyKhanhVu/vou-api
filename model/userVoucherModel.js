@@ -22,7 +22,7 @@ function GetAllUserVoucherByIdPartner(partner_id) {
 function GetAllUserVoucherByUserId(user_id) {
     if (user_id) {
         var defer = q.defer();
-        var query = conn.query(`SELECT voucher.*, user_voucher.created_at, campaign.* ` +
+        var query = conn.query(`SELECT voucher.*, user_voucher.created_at, campaign.name as campiagn_name, campaign.image as campaign_image, campaign.start_time, campaign.end_time ` +
                                 `FROM user_voucher, voucher, campaign ` + 
                                 `WHERE user_voucher.voucher_id = voucher.id ` + 
                                 `AND user_voucher.user_id = ${user_id} ` + 
