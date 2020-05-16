@@ -15,4 +15,6 @@ router.delete('/:id', voucherController.deleteVoucherById);
 
 router.patch('/:id', voucherController.updateVoucherById);
 
+router.get('/is_available/:code', voucherController.checkAvailableUserVoucher);
+
 module.exports = router;

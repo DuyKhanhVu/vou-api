@@ -40,7 +40,27 @@ function GetAllUserVoucherByUserId(user_id) {
     return false;
 }
 
+function GetUserVoucherByCode(code) {
+    if (code) {
+        var defer = q.defer();
+        var query = conn.query(`SELECT user_voucher.* ` +
+                                `FROM user_voucher, voucher ` + 
+                                `WHERE user_voucher.voucher_id = voucher.id AND voucher.code = "${code}"`,
+            function (err, result) {
+                if (err) {
+                    console.log(err);
+                    defer.reject(err);
+                } else {
+                    defer.resolve(result);
+                }
+            });
+        return defer.promise;
+    }
+    return false;
+}
+
 module.exports = {
     GetAllUserVoucherByIdPartner: GetAllUserVoucherByIdPartner,
     GetAllUserVoucherByUserId: GetAllUserVoucherByUserId,
+    GetUserVoucherByCode: GetUserVoucherByCode
 }

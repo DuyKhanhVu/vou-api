@@ -1,4 +1,5 @@
 var model = require('../model/model');
+var campaignModel = require('../model/campaignModel');
 
 async function createCampaign(req, res, next) {
     var campaign = {
@@ -15,9 +16,8 @@ async function createCampaign(req, res, next) {
 }
 
 async function getAllCampaign(req, res, next) {
-    var id = req.params.id;
     try {
-        var result = await model.GetAll("campaign");
+        var result = await campaignModel.GetAllCampaign()
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -27,7 +27,7 @@ async function getAllCampaign(req, res, next) {
 async function getCampaignById(req, res, next) {
     var id = req.params.id;
     try {
-        var result = await model.GetById("campaign", id);
+        var result = await campaign
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)

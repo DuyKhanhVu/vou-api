@@ -22,7 +22,7 @@ async function getVoucherByPartnerId(req, res, next) {
         res.status(400).json(err)
     }
 
-    await model.Update("voucher", {available: false}, result.id);
+    await model.Update("voucher", { available: false }, result.id);
     user_voucher = {
         user_id: req.user.id,
         voucher_id: result.id,
@@ -50,7 +50,17 @@ async function deleteVoucherById(req, res, next) {
     var id = req.params.id;
     try {
         var result = await model.DeleteById("voucher", id);
-        res.status(200).json({message: `Deleted voucher's id = ${id}`})
+        res.status(200).json({ message: `Deleted voucher's id = ${id}` })
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
+async function checkAvailableUserVoucher(req, res, next) {
+    var code = req.params.code;
+    try {
+        result = await userVoucherModel.GetUserVoucherByCode(code);
+        res.status(200).json({ result: result[0].available === 1 })
     } catch (err) {
         res.status(400).json(err)
     }
@@ -60,5 +70,6 @@ module.exports = {
     getVoucherById: getVoucherById,
     getVoucherByPartnerId: getVoucherByPartnerId,
     updateVoucherById: updateVoucherById,
-    deleteVoucherById: deleteVoucherById
+    deleteVoucherById: deleteVoucherById,
+    checkAvailableUserVoucher: checkAvailableUserVoucher
 }
