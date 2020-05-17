@@ -17,7 +17,7 @@ async function createCampaign(req, res, next) {
 
 async function getAllCampaign(req, res, next) {
     try {
-        var result = await campaignModel.GetAllCampaign()
+        var result = await model.GetAll("campaign")
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -37,7 +37,7 @@ async function getCampaignById(req, res, next) {
 async function getAllCampaignByPartnerId(req, res, next) {
     var id = req.params.id;
     try {
-        var result = await model.GetAllByField("campaign", "partner_id", id);
+        var result = await campaignModel.GetAllCampaignByPartnerId(id);
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
