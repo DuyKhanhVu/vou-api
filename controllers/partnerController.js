@@ -48,8 +48,6 @@ async function createVoucher(req, res, next) {
             promo_code: req.body.promo_code,
             code: code,
             qr_code: qr_code,
-            start_time: req.body.start_time,
-            end_time: req.body.end_time,
             discount: req.body.discount,
             description: req.body.description,
             campaign_id: req.body.campaign_id
