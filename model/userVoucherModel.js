@@ -45,7 +45,7 @@ function GetAllUserVoucherByUserId(user_id) {
 function GetUserVoucherByCode(code) {
     if (code) {
         var defer = q.defer();
-        var query = conn.query(`SELECT voucher.*, user_voucher.available, user_voucher.created_at, campaign.start_time, campaign.end_time ` +
+        var query = conn.query(`SELECT voucher.*, user_voucher.id AS user_voucher_id, user_voucher.available, user_voucher.created_at, campaign.start_time, campaign.end_time ` +
                                 `FROM user_voucher, voucher, campaign ` + 
                                 `WHERE user_voucher.voucher_id = voucher.id AND voucher.code = "${code}" AND voucher.campaign_id = campaign.id`,
             function (err, result) {
