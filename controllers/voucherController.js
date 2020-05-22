@@ -60,7 +60,7 @@ async function checkAvailableUserVoucher(req, res, next) {
     var code = req.params.code;
     try {
         result = await userVoucherModel.GetUserVoucherByCode(code);
-        res.status(200).json({ result: result[0].available === 1 })
+        res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
     }
