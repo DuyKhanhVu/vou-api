@@ -13,7 +13,9 @@ var voucherRouter = require('./routes/voucher');
 var gameRouter = require('./routes/game');
 var bannerRouter = require('./routes/banner');
 var campaignRouter = require('./routes/campaign');
+var puzzleRouter = require('./routes/puzzle');
 
+process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve("./config/google_credential.json");
 var app = express();
 
 app.use(cors());
@@ -39,6 +41,7 @@ app.use('/voucher', voucherRouter);
 app.use('/game', gameRouter);
 app.use('/banner', bannerRouter);
 app.use('/campaign', campaignRouter);
+app.use('/puzzle', puzzleRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

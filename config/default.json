@@ -1,14 +1,14 @@
 {
-    "server":{
+    "server": {
         "host": "0.0.0.0",
         "port": 3000
     },
-    "mysql":{
-        "host":"remotemysql.com",
+    "mysql": {
+        "host": "remotemysql.com",
         "port": 3306,
         "database": "qv019aMJ2q",
-        "user":"qv019aMJ2q",
-        "password":"PkZFcze6h1"
+        "user": "qv019aMJ2q",
+        "password": "PkZFcze6h1"
     },
     "jwtSecret": "vou-app-jwtsecret"
 }
