@@ -9,6 +9,6 @@ router.post('/me', puzzleController.createPuzzle);
 
 router.get('/me', puzzleController.getPuzzle);
 
-router.patch('/:id', puzzleController.updatePuzzle);
+router.get('/piece/:id', puzzleController.getNewPiece);
 
 module.exports = router;
