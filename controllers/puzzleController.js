@@ -26,7 +26,9 @@ async function getPuzzle(req, res, next) {
         } else {
             result[0].number_of_turn = number_of_turn;
         }
+        
         await model.Update("puzzle", result[0], result[0].id);
+        result[0].pieces = [result[0].piece1, result[0].piece2, result[0].piece3, result[0].piece4, result[0].piece5, result[0].piece6, result[0].piece6, result[0].piece7, result[0].piece8, result[0].piece9, result[0].piece10, result[0].piece11, result[0].piece12]
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -86,7 +88,9 @@ async function getNewPiece(req, res, next) {
             }
             puzzle[0].number_of_turn--;
             puzzle[0].last_time = new Date();
+            
             var result = await model.Update("puzzle", puzzle, id);
+            puzzle[0].pieces = [puzzle[0].piece1, puzzle[0].piece2, puzzle[0].piece3, puzzle[0].piece4, puzzle[0].piece5, puzzle[0].piece6, puzzle[0].piece6, puzzle[0].piece7, puzzle[0].piece8, puzzle[0].piece9, puzzle[0].piece10, puzzle[0].piece11, puzzle[0].piece12]
             puzzle[0].id = id;
             res.status(200).json(puzzle)
         } catch (err) {
