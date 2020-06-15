@@ -102,21 +102,7 @@ async function getNewPiece(req, res, next) {
             puzzle[0].last_time = new Date();
 
             var result = await model.Update("puzzle", puzzle, id);
-            puzzle[0].pieces = [puzzle[0].piece1, puzzle[0].piece2, puzzle[0].piece3, puzzle[0].piece4, puzzle[0].piece5, puzzle[0].piece6, puzzle[0].piece6, puzzle[0].piece7, puzzle[0].piece8, puzzle[0].piece9, puzzle[0].piece10, puzzle[0].piece11, puzzle[0].piece12]
-            delete puzzle[0].piece1
-            delete puzzle[0].piece2
-            delete puzzle[0].piece3
-            delete puzzle[0].piece4
-            delete puzzle[0].piece5
-            delete puzzle[0].piece6
-            delete puzzle[0].piece7
-            delete puzzle[0].piece8
-            delete puzzle[0].piece9
-            delete puzzle[0].piece10
-            delete puzzle[0].piece11
-            delete puzzle[0].piece12
-            puzzle[0].id = id;
-            res.status(200).json(puzzle)
+            res.status(200).json({index: random});
         } catch (err) {
             res.status(400).json(err)
         }
