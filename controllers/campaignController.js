@@ -10,7 +10,7 @@ async function createCampaign(req, res, next) {
     delete campaign.voucher_image;
 
     try {
-        if (campaign.promo_code.length > 10) { return res.status(400).json({ error: "Promo code too long." }) }
+        if (campaign.promo_code.length > 5) { return res.status(400).json({ error: "Promo code too long." }) }
         //Create campaign
         var result = await model.Create('campaign', campaign);
         campaign.id = result.insertId;
