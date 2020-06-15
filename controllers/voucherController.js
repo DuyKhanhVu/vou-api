@@ -12,11 +12,11 @@ async function getVoucherById(req, res, next) {
     }
 }
 
-async function getVoucherByPartnerId(req, res, next) {
-    var partner_id = req.params.partner_id;
+async function getVoucherByCampaignId(req, res, next) {
+    var campaign_id = req.params.campaign_id;
     var result = {}
     try {
-        result = await voucherModel.GetOneByPartnerId(partner_id);
+        result = await voucherModel.GetOneByCampaignId(campaign_id);
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -68,7 +68,7 @@ async function checkAvailableUserVoucher(req, res, next) {
 
 module.exports = {
     getVoucherById: getVoucherById,
-    getVoucherByPartnerId: getVoucherByPartnerId,
+    getVoucherByCampaignId: getVoucherByCampaignId,
     updateVoucherById: updateVoucherById,
     deleteVoucherById: deleteVoucherById,
     checkAvailableUserVoucher: checkAvailableUserVoucher

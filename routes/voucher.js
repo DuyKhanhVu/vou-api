@@ -7,7 +7,7 @@ router.use(middleware.isAuthenticated);
 
 router.get('/:id', voucherController.getVoucherById);
 
-router.get('/partner/:partner_id', voucherController.getVoucherByPartnerId);
+router.get('/campaign/:campaign_id', voucherController.getVoucherByCampaignId);
 
 router.use(middleware.isAuthenticatedPartner);
 

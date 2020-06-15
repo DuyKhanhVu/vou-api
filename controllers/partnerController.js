@@ -2,8 +2,6 @@ var model = require('../model/model');
 var voucherModel = require('../model/voucherModel');
 var userVoucherModel = require('../model/userVoucherModel');
 var partnerModel = require('../model/partnerModel');
-var CodeGenerator = require('node-code-generator');
-var QRCode = require('qrcode')
 
 async function getAllPartner(req, res, next) {
     try {
@@ -32,39 +30,6 @@ async function getPartnerById(req, res, next) {
     }
 }
 
-async function createVoucher(req, res, next) {
-    // Generate an array of random unique codes according to the provided pattern:
-    if (req.body.promo_code.length > 10) {return res.status(400).json({ error: "Promo code too long." })}
-    if (!req.body.campaign_id) {return res.status(400).json({error: "campaign_id is required"})}
-    
-    var generator = new CodeGenerator();
-    var codes = generator.generateCodes(`${req.body.promo_code}**********`, req.body.count, {});
-
-    var vouchers = []
-
-    for (const code of codes) {
-        let qr_code = await QRCode.toDataURL(code)
-        let voucher = {
-            promo_code: req.body.promo_code,
-            code: code,
-            qr_code: qr_code,
-            discount: req.body.discount,
-            description: req.body.description,
-            campaign_id: req.body.campaign_id
-        }
-
-        try {
-            var result = await model.Create('voucher', voucher);
-            voucher.id = result.insertId;
-            vouchers.push(voucher)
-        } catch (err) {
-            res.status(400).json(err)
-        }
-    }
-    return res.status(200).json(vouchers)
-
-}
-
 async function getAllVoucher(req, res, next) {
     var partner_id = req.user.id;
     try {
@@ -88,7 +53,6 @@ async function getAllUserVoucher(req, res, next) {
 module.exports = {
     getAllPartner: getAllPartner,
     getPartnerById: getPartnerById,
-    createVoucher: createVoucher,
     getAllVoucher: getAllVoucher,
     getAllUserVoucher: getAllUserVoucher
 }
