@@ -27,6 +27,8 @@ async function createCampaign(req, res, next) {
                 code: code,
                 qr_code: qr_code,
                 image: req.body.voucher_image,
+                discount: campaign.discount,
+                description: campaign.description,
                 campaign_id: campaign.id
             }
 

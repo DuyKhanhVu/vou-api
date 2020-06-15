@@ -22,7 +22,7 @@ function GetAllByIdPartner(partner_id) {
 function GetOneByCampaignId(campaign_id) {
     if (campaign_id) {
         var defer = q.defer();
-        var query = conn.query(`SELECT voucher.*, campaign.image as campaign_image, campaign.partner_id, campaign.discount, campaign.description FROM voucher, campaign 
+        var query = conn.query(`SELECT voucher.*, campaign.image as campaign_image, campaign.partner_id FROM voucher, campaign 
                                 WHERE voucher.campaign_id = campaign.id AND campaign.id = ${campaign_id} AND available = 1 LIMIT 1`,
             function (err, result) {
                 if (err) {
