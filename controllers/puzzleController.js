@@ -28,7 +28,7 @@ async function getPuzzle(req, res, next) {
         }
 
         await model.Update("puzzle", result[0], result[0].id);
-        result[0].pieces = [result[0].piece1, result[0].piece2, result[0].piece3, result[0].piece4, result[0].piece5, result[0].piece6, result[0].piece6, result[0].piece7, result[0].piece8, result[0].piece9, result[0].piece10, result[0].piece11, result[0].piece12]
+        result[0].pieces = [result[0].piece1, result[0].piece2, result[0].piece3, result[0].piece4, result[0].piece5, result[0].piece6, result[0].piece7, result[0].piece8, result[0].piece9, result[0].piece10, result[0].piece11, result[0].piece12]
         delete result[0].piece1
         delete result[0].piece2
         delete result[0].piece3
