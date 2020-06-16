@@ -27,7 +27,12 @@ async function getPuzzle(req, res, next) {
             result[0].number_of_turn = number_of_turn;
         }
 
-        await model.Update("puzzle", result[0], result[0].id);
+        try {
+            await model.Update("puzzle", result[0], result[0].id);
+        } catch {
+            return res.status(400).json({ message: 'Cant update puzzle' });
+        }
+
         result[0].pieces = [result[0].piece1, result[0].piece2, result[0].piece3, result[0].piece4, result[0].piece5, result[0].piece6, result[0].piece7, result[0].piece8, result[0].piece9, result[0].piece10, result[0].piece11, result[0].piece12]
         delete result[0].piece1
         delete result[0].piece2
@@ -41,9 +46,9 @@ async function getPuzzle(req, res, next) {
         delete result[0].piece10
         delete result[0].piece11
         delete result[0].piece12
-        res.status(200).json(result)
+        return res.status(200).json(result)
     } catch (err) {
-        res.status(400).json(err)
+        return res.status(400).json({ message: 'Cant get puzzle' });
     }
 }
 
@@ -102,7 +107,7 @@ async function getNewPiece(req, res, next) {
             puzzle[0].last_time = new Date();
 
             var result = await model.Update("puzzle", puzzle, id);
-            res.status(200).json({index: random});
+            res.status(200).json({ index: random });
         } catch (err) {
             res.status(400).json(err)
         }
