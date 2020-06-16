@@ -61,40 +61,40 @@ async function getNewPiece(req, res, next) {
         try {
             var random = Math.floor(Math.random() * Math.floor(12));
             switch (random) {
-                case 1:
+                case 0:
                     puzzle[0].piece1++;
                     break;
-                case 2:
+                case 1:
                     puzzle[0].piece2++;
                     break;
-                case 3:
+                case 2:
                     puzzle[0].piece3++;
                     break;
-                case 4:
+                case 3:
                     puzzle[0].piece4++;
                     break;
-                case 5:
+                case 4:
                     puzzle[0].piece5++;
                     break;
-                case 6:
+                case 5:
                     puzzle[0].piece6++;
                     break;
-                case 7:
+                case 6:
                     puzzle[0].piece7++;
                     break;
-                case 8:
+                case 7:
                     puzzle[0].piece8++;
                     break;
-                case 9:
+                case 8:
                     puzzle[0].piece9++;
                     break;
-                case 10:
+                case 9:
                     puzzle[0].piece10++;
                     break;
-                case 11:
+                case 10:
                     puzzle[0].piece11++;
                     break;
-                case 12:
+                case 11:
                     puzzle[0].piece12++;
                     break;
             }
