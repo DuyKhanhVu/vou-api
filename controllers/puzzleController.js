@@ -19,18 +19,18 @@ async function getPuzzle(req, res, next) {
         var result = await model.GetAllByField("puzzle", "user_id", id);
         var last_time = result[0].last_time;
         var now = new Date()
-        var turn = parseInt((now - last_time) / (4 * 60 * 60));
+        var turn = parseInt((now - last_time) / (4000 * 60 * 60));
         result[0].number_of_turn += turn;
         if (result[0].number_of_turn > 6) {
             result[0].number_of_turn = 6;
         } else {
-            result[0].number_of_turn = number_of_turn;
+            result[0].number_of_turn += turn;
         }
 
         try {
             await model.Update("puzzle", result[0], result[0].id);
-        } catch {
-            return res.status(400).json({ message: 'Cant update puzzle' });
+        } catch (err) {
+            return res.status(400).json(err);
         }
 
         result[0].pieces = [result[0].piece1, result[0].piece2, result[0].piece3, result[0].piece4, result[0].piece5, result[0].piece6, result[0].piece7, result[0].piece8, result[0].piece9, result[0].piece10, result[0].piece11, result[0].piece12]
