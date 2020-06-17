@@ -16,6 +16,16 @@ async function getUserById(req, res, next) {
     }
 }
 
+async function getUserByUsername(req, res, next) {
+    var username = req.params.username;
+    try {
+        var result = await model.GetAllByFieldString("user", "username", username);
+        res.status(200).json({ id: result[0].id, display_name: result[0].display_name })
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 async function updateMyProfile(req, res, next) {
     var id = req.user.id;
     var user = {
@@ -46,6 +56,7 @@ async function getAllMyVoucher(req, res, next) {
 module.exports = {
     getMyProfile: getMyProfile,
     getUserById: getUserById,
+    getUserByUsername: getUserByUsername,
     updateMyProfile: updateMyProfile,
     getAllMyVoucher: getAllMyVoucher
 }

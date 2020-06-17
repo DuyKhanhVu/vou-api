@@ -7,6 +7,8 @@ router.use(middleware.isAuthenticated);
 
 router.get('/me', userController.getMyProfile);
 
+router.get('/username/:username', userController.getUserByUsername);
+
 router.get('/:id', userController.getUserById);
 
 router.patch('/me', userController.updateMyProfile);

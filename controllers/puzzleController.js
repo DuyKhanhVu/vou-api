@@ -1,4 +1,5 @@
 var model = require('../model/model');
+var puzzleModel = require('../model/puzzleModel');
 
 async function createPuzzle(req, res, next) {
     var id = req.user.id;
@@ -114,8 +115,109 @@ async function getNewPiece(req, res, next) {
     }
 }
 
+async function transferPiece(req, res, next) {
+    var idSource = req.user.id;
+    var idTarget = req.body.id_target;
+    var pieces = req.body.pieces;
+    try {
+        var puzzleSource = await model.GetAllByField('puzzle', 'user_id', idSource);
+        var puzzleTarget = await model.GetAllByField('puzzle', 'user_id', idTarget);
+    } catch (err) {
+        return res.status(400).json(err)
+    }
+
+    if (pieces[0] != 0) {
+        puzzleSource[0].piece1 -= pieces[0];
+        puzzleTarget[0].piece1 += pieces[0];
+    }
+
+    if (pieces[1] != 0) {
+        puzzleSource[0].piece2 -= pieces[1];
+        puzzleTarget[0].piece2 += pieces[1];
+    }
+
+    if (pieces[2] != 0) {
+        puzzleSource[0].piece3 -= pieces[2];
+        puzzleTarget[0].piece3 += pieces[2];
+    }
+
+    if (pieces[3] != 0) {
+        puzzleSource[0].piece4 -= pieces[3];
+        puzzleTarget[0].piece4 += pieces[3];
+    }
+
+    if (pieces[4] != 0) {
+        puzzleSource[0].piece5 -= pieces[4];
+        puzzleTarget[0].piece5 += pieces[4];
+    }
+
+    if (pieces[5] != 0) {
+        puzzleSource[0].piece6 -= pieces[5];
+        puzzleTarget[0].piece6 += pieces[5];
+    }
+
+    if (pieces[6] != 0) {
+        puzzleSource[0].piece7 -= pieces[6];
+        puzzleTarget[0].piece7 += pieces[6];
+    }
+
+    if (pieces[7] != 0) {
+        puzzleSource[0].piece8 -= pieces[7];
+        puzzleTarget[0].piece8 += pieces[7];
+    }
+
+    if (pieces[8] != 0) {
+        puzzleSource[0].piece9 -= pieces[8];
+        puzzleTarget[0].piece9 += pieces[8];
+    }
+
+    if (pieces[9] != 0) {
+        puzzleSource[0].piece10 -= pieces[9];
+        puzzleTarget[0].piece10 += pieces[9];
+    }
+
+    if (pieces[10] != 0) {
+        puzzleSource[0].piece11 -= pieces[10];
+        puzzleTarget[0].piece11 += pieces[10];
+    }
+
+    if (pieces[11] != 0) {
+        puzzleSource[0].piece12 -= pieces[11];
+        puzzleTarget[0].piece12 += pieces[11];
+    }
+
+    var transation = {
+        id_source: idSource,
+        id_target: idTarget,
+        pieces: JSON.stringify(pieces)
+
+    }
+
+
+    try {
+        await model.Update('puzzle', puzzleSource[0], puzzleSource[0].id);
+        await model.Update('puzzle', puzzleTarget[0], puzzleTarget[0].id);
+        await model.Create('piece_transfer_history', transation)
+        return res.status(200).json({ message: 'Tranfer sucessfully!!!' })
+    } catch (err) {
+        return res.status(400).json(err)
+    }
+}
+
+async function getTransferPieceHistory(req, res, next) {
+    var id = req.user.id;
+    try {
+        var result = await puzzleModel.GetTransferPieceHistoryByUserId(id);
+        return res.status(200).json(result);
+    } catch (err) {
+        return res.status(400).json(err);
+    }
+}
+
 module.exports = {
     createPuzzle: createPuzzle,
     getPuzzle: getPuzzle,
-    getNewPiece: getNewPiece
+    getNewPiece: getNewPiece,
+    transferPiece: transferPiece,
+    getTransferPieceHistory: getTransferPieceHistory
 }

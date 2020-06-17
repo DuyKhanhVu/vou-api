@@ -11,4 +11,8 @@ router.get('/me', puzzleController.getPuzzle);
 
 router.get('/piece/:id', puzzleController.getNewPiece);
 
+router.post('/transfer', puzzleController.transferPiece);
+
+router.get('/transfer_history/me', puzzleController.getTransferPieceHistory);
+
 module.exports = router;

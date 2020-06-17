@@ -63,6 +63,22 @@ function GetAllByField(table, col_name, value) {
     return false;
 }
 
+function GetAllByFieldString(table, col_name, value) {
+    if (table && col_name && value) {
+        var defer = q.defer();
+        var query = conn.query(`SELECT * FROM ${table} WHERE ${col_name} = '${value}'`, function (err, result) {
+            if (err) {
+                console.log(err);
+                defer.reject(err);
+            } else {
+                defer.resolve(result);
+            }
+        });
+        return defer.promise;
+    }
+    return false;
+}
+
 function Update(table, data, id) {
     if (data) {
         var defer = q.defer();
@@ -98,6 +114,7 @@ module.exports = {
     GetAll: GetAll,
     GetById: GetById,
     GetAllByField: GetAllByField,
+    GetAllByFieldString: GetAllByFieldString,
     Update: Update,
     DeleteById: DeleteById
 }
