@@ -189,7 +189,8 @@ async function transferPiece(req, res, next) {
     var transation = {
         id_source: idSource,
         id_target: idTarget,
-        pieces: JSON.stringify(pieces)
+        pieces: JSON.stringify(pieces),
+        created_at: new Date()
 
     }
 
