@@ -107,7 +107,19 @@ async function getNewPiece(req, res, next) {
             puzzle[0].number_of_turn--;
             puzzle[0].last_time = new Date();
 
-            var result = await model.Update("puzzle", puzzle, id);
+            await model.Update("puzzle", puzzle, id);
+
+            var pieces = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            pieces[random] = 1;
+            var transation = {
+                id_source: 1,
+                id_target: req.user.id,
+                pieces: JSON.stringify(pieces),
+                created_at: new Date()
+        
+            }
+            await model.Create('piece_transfer_history', transation)
+
             res.status(200).json({ index: random });
         } catch (err) {
             res.status(400).json(err)
