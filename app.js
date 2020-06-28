@@ -14,6 +14,8 @@ var gameRouter = require('./routes/game');
 var bannerRouter = require('./routes/banner');
 var campaignRouter = require('./routes/campaign');
 var puzzleRouter = require('./routes/puzzle');
+var favoriteStoreRouter = require('./routes/favorite_store');
+const favoriteStoreController = require('./controllers/favoriteStoreController');
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve("./config/google_credential.json");
 var app = express();
@@ -42,6 +44,7 @@ app.use('/game', gameRouter);
 app.use('/banner', bannerRouter);
 app.use('/campaign', campaignRouter);
 app.use('/puzzle', puzzleRouter);
+app.use('/favorite_store', favoriteStoreRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
