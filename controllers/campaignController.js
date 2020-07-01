@@ -14,6 +14,8 @@ async function createCampaign(req, res, next) {
         //Create campaign
         var result = await model.Create('campaign', campaign);
         campaign.id = result.insertId;
+        let qr_code_campaign = await QRCode.toDataURL(JSON.stringify(campaign));
+        await model.Update('campaign', {qr_code: qr_code_campaign}, campaign.id);
 
         //Create voucher
         var generator = new CodeGenerator();
