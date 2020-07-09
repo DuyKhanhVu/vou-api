@@ -50,7 +50,7 @@ async function createCampaign(req, res, next) {
 
 async function getAllCampaign(req, res, next) {
     try {
-        var result = await model.GetAll("campaign")
+        var result = await campaignModel.GetAllCampaign();
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -60,7 +60,7 @@ async function getAllCampaign(req, res, next) {
 async function getCampaignById(req, res, next) {
     var id = req.params.id;
     try {
-        var result = await campaign
+        var result = await model.GetById('campaign', id);
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -94,7 +94,7 @@ async function updateCampaignById(req, res, next) {
 async function deleteCampaignById(req, res, next) {
     var id = req.params.id;
     try {
-        var result = await model.DeleteById("campaign", id);
+        var result = await campaignModel.DeleteCampaignById(id);
         res.status(200).json({ message: `Deleted campaign's id = ${id}` })
     } catch (err) {
         res.status(400).json(err)
