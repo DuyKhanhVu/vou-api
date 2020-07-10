@@ -21,4 +21,10 @@ router.patch('/user_voucher/:id', userVoucherController.updateUserVoucher);
 
 router.post('/campaign', campaignController.createCampaign);
 
+router.post('/employee', partnerController.createEmployee);
+
+router.get('/employee/me', partnerController.getAllEmployee);
+
+router.delete('/employee/:id', partnerController.deleteEmployee);
+
 module.exports = router;

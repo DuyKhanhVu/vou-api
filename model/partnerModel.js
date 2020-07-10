@@ -31,7 +31,24 @@ function GetAllPartner() {
     return defer.promise;
 }
 
+function GetAllMyEmployee(partner_id) {
+    if (partner_id) {
+        var defer = q.defer();
+        var query = conn.query(`SELECT * FROM employee WHERE partner_id = ${partner_id}`, function (err, result) {
+            if (err) {
+                console.log(err);
+                defer.reject(err);
+            } else {
+                defer.resolve(result);
+            }
+        });
+        return defer.promise;
+    }
+    return false;
+}
+
 module.exports = {
     GetPartnerByUsername: GetPartnerByUsername,
-    GetAllPartner: GetAllPartner
+    GetAllPartner: GetAllPartner,
+    GetAllMyEmployee: GetAllMyEmployee
 }
