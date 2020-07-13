@@ -7,7 +7,11 @@ async function updateUserVoucher(req, res, next) {
     }
     try {
         var result = await model.Update('user_voucher', user_voucher, id)
-        res.status(200).json(result)
+        var user_voucher = await model.GetAllByField('user_voucher', 'id', id);
+        var user = await model.GetAllByField('user', 'id', user_voucher[0].user_id);
+        delete user[0].password;
+        delete user[0].refresh_tolen;
+        res.status(200).json({ message: 'Updated successfully', user: user[0], user_voucher: user_voucher[0] })
     } catch (err) {
         res.status(400).json(err)
     }
