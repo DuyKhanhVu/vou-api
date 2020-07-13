@@ -20,14 +20,16 @@ function GetPartnerByUsername(username) {
 
 function GetAllPartner() {
     var defer = q.defer();
-    var query = conn.query(`SELECT * FROM user WHERE id IN (SELECT id FROM partner)`, function (err, result) {
-        if (err) {
-            console.log(err);
-            defer.reject(err);
-        } else {
-            defer.resolve(result);
-        }
-    });
+    var query = conn.query(`SELECT * FROM user WHERE id IN (SELECT id FROM partner) 
+                            AND  id IN (SELECT DISTINCT (partner_id) FROM campaign);`,
+        function (err, result) {
+            if (err) {
+                console.log(err);
+                defer.reject(err);
+            } else {
+                defer.resolve(result);
+            }
+        });
     return defer.promise;
 }
 
