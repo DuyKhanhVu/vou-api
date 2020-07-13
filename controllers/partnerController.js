@@ -92,6 +92,38 @@ async function getAllEmployee(req, res, next) {
     }
 }
 
+async function changePasswordEmployee(req, res, next) {
+    var username = req.body.username;
+    var oldPassword = req.body.old_password;
+    var newPassword = req.body.new_password;
+    var confirmPassword = req.body.confirm_password;
+
+    var checkUser = await model.GetAllByFieldString('employee', 'username', username);
+    if ((newPassword.length < 6) || (newPassword.length > 16)) {
+        res.status(400).json({ message: 'That password is to short (or too long). Please make sure your password is between 6 and 16 characters.' })
+    } else if (checkUser.length == 0) {
+        res.status(400).json({ message: 'Cant found employee' });
+    } else if (!(bcrypt.compareSync(oldPassword, checkUser[0].password))) {
+        res.status(400).json({ message: 'Old Password is incorrect.'});
+    } else if (newPassword !== confirmPassword) {
+        res.status(400).json({ message: 'The confirm password you entered is incorrect.' })
+    } else {
+        var salt = 8;
+        var passwordHash = await bcrypt.hash(newPassword, salt);
+
+        var employee = {
+            password: passwordHash
+        }
+
+        try {
+            result = await model.Update('employee', employee, checkUser[0].id);
+            res.status(200).json({ message: `Changed password successfully`})
+        } catch (err) {
+            res.status(400).json(err)
+        }
+    }
+}
+
 async function deleteEmployee(req, res, next) {
     var employee_id = req.params.id;
 
@@ -110,5 +142,6 @@ module.exports = {
     getAllUserVoucher: getAllUserVoucher,
     createEmployee: createEmployee,
     getAllEmployee: getAllEmployee,
+    changePasswordEmployee: changePasswordEmployee,
     deleteEmployee: deleteEmployee
 }

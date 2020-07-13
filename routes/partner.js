@@ -25,6 +25,8 @@ router.post('/employee', partnerController.createEmployee);
 
 router.get('/employee/me', partnerController.getAllEmployee);
 
+router.patch('/employee/change_password', partnerController.changePasswordEmployee);
+
 router.delete('/employee/:id', partnerController.deleteEmployee);
 
 module.exports = router;
