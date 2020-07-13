@@ -94,7 +94,6 @@ async function getAllEmployee(req, res, next) {
 
 async function changePasswordEmployee(req, res, next) {
     var username = req.body.username;
-    var oldPassword = req.body.old_password;
     var newPassword = req.body.new_password;
     var confirmPassword = req.body.confirm_password;
 
@@ -103,8 +102,6 @@ async function changePasswordEmployee(req, res, next) {
         res.status(400).json({ message: 'That password is to short (or too long). Please make sure your password is between 6 and 16 characters.' })
     } else if (checkUser.length == 0) {
         res.status(400).json({ message: 'Cant found employee' });
-    } else if (!(bcrypt.compareSync(oldPassword, checkUser[0].password))) {
-        res.status(400).json({ message: 'Old Password is incorrect.'});
     } else if (newPassword !== confirmPassword) {
         res.status(400).json({ message: 'The confirm password you entered is incorrect.' })
     } else {
