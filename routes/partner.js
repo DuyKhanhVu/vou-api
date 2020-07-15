@@ -17,6 +17,8 @@ router.get('/voucher/me', partnerController.getAllVoucher);
 
 router.get('/user_voucher', partnerController.getAllUserVoucher);
 
+router.get('/user_voucher/statistics', partnerController.statisticsUserVoucher);
+
 router.patch('/user_voucher/:id', userVoucherController.updateUserVoucher);
 
 router.post('/campaign', campaignController.createCampaign);

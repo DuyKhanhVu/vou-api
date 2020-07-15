@@ -51,6 +51,79 @@ async function getAllUserVoucher(req, res, next) {
     }
 }
 
+async function statisticsUserVoucher(req, res, next) {
+    var type = req.query.type;
+    var campaign_id = req.query.campaign_id;
+    var start_time = req.query.start_time;
+    var end_time = req.query.end_time;
+
+    try {
+        if (type === 'received') {
+            var rows = await userVoucherModel.GetUserVoucherReceivedByCampaignId(campaign_id, start_time, end_time);
+            var temp = []
+            for (const row of rows) {
+                var item = {
+                    count: row.count,
+                    year: new Date(row.created_at).getFullYear(),
+                    month: new Date(row.created_at).getMonth() + 1,
+                    day: new Date(row.created_at).getDay(),
+                    hour: new Date(row.created_at).getHours()
+                }
+                temp.push(item);
+            }
+
+            var i = 1;
+            var count = 0;
+            results = []
+            results.push(temp[0])
+            while (i < temp.length) {
+                if (temp[i].year != results[count].year || temp[i].month != results[count].month ||
+                    temp[i].day != results[count].day || temp[i].hour != results[count].hour) {
+                    results.push(temp[i]);
+                    count++;
+                    i++;
+                } else {
+                    results[count].count += 1;
+                    i++;
+                }
+            }
+        } else if (type === 'used') {
+            var rows = await userVoucherModel.GetUserVoucherUsedByCampaignId(campaign_id, start_time, end_time);
+            var temp = []
+            for (const row of rows) {
+                var item = {
+                    count: row.count,
+                    year: new Date(row.used_at).getFullYear(),
+                    month: new Date(row.used_at).getMonth() + 1,
+                    day: new Date(row.used_at).getDay(),
+                    hour: new Date(row.used_at).getHours()
+                }
+                temp.push(item);
+            }
+
+            var i = 1;
+            var count = 0;
+            results = []
+            results.push(temp[0])
+            while (i < temp.length) {
+                if (temp[i].year != results[count].year || temp[i].month != results[count].month ||
+                    temp[i].day != results[count].day || temp[i].hour != results[count].hour) {
+                    results.push(temp[i]);
+                    count++;
+                    i++;
+                } else {
+                    results[count].count += 1;
+                    i++;
+                }
+            }
+        }
+        res.status(200).json({ results: results })
+    } catch (err) {
+        console.log(err)
+        res.status(400).json(err)
+    }
+}
+
 async function createEmployee(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
@@ -114,7 +187,7 @@ async function changePasswordEmployee(req, res, next) {
 
         try {
             result = await model.Update('employee', employee, checkUser[0].id);
-            res.status(200).json({ message: `Changed password successfully`})
+            res.status(200).json({ message: `Changed password successfully` })
         } catch (err) {
             res.status(400).json(err)
         }
@@ -137,6 +210,7 @@ module.exports = {
     getPartnerById: getPartnerById,
     getAllVoucher: getAllVoucher,
     getAllUserVoucher: getAllUserVoucher,
+    statisticsUserVoucher: statisticsUserVoucher,
     createEmployee: createEmployee,
     getAllEmployee: getAllEmployee,
     changePasswordEmployee: changePasswordEmployee,

@@ -22,13 +22,13 @@ function GetAllUserVoucherByIdPartner(partner_id) {
 function GetAllUserVoucherByUserId(user_id) {
     if (user_id) {
         var defer = q.defer();
-        var query = conn.query(`SELECT voucher.*, user_voucher.id AS user_voucher_id, user_voucher.available, user_voucher.created_at, ` + 
-                                        `campaign.partner_id, campaign.name as campaign_name, campaign.image as campaign_image, campaign.start_time, campaign.end_time ` +
-                                `FROM user_voucher, voucher, campaign ` + 
-                                `WHERE user_voucher.voucher_id = voucher.id ` + 
-                                `AND user_voucher.user_id = ${user_id} ` + 
-                                `AND voucher.campaign_id = campaign.id ` + 
-                                `ORDER BY user_voucher.created_at DESC`,
+        var query = conn.query(`SELECT voucher.*, user_voucher.id AS user_voucher_id, user_voucher.available, user_voucher.created_at, ` +
+            `campaign.partner_id, campaign.name as campaign_name, campaign.image as campaign_image, campaign.start_time, campaign.end_time ` +
+            `FROM user_voucher, voucher, campaign ` +
+            `WHERE user_voucher.voucher_id = voucher.id ` +
+            `AND user_voucher.user_id = ${user_id} ` +
+            `AND voucher.campaign_id = campaign.id ` +
+            `ORDER BY user_voucher.created_at DESC`,
             function (err, result) {
                 if (err) {
                     console.log(err);
@@ -46,8 +46,48 @@ function GetUserVoucherByCode(code) {
     if (code) {
         var defer = q.defer();
         var query = conn.query(`SELECT voucher.*, user_voucher.id AS user_voucher_id, user_voucher.available, user_voucher.created_at, campaign.start_time, campaign.end_time ` +
-                                `FROM user_voucher, voucher, campaign ` + 
-                                `WHERE user_voucher.voucher_id = voucher.id AND voucher.code = "${code}" AND voucher.campaign_id = campaign.id`,
+            `FROM user_voucher, voucher, campaign ` +
+            `WHERE user_voucher.voucher_id = voucher.id AND voucher.code = "${code}" AND voucher.campaign_id = campaign.id`,
+            function (err, result) {
+                if (err) {
+                    console.log(err);
+                    defer.reject(err);
+                } else {
+                    defer.resolve(result);
+                }
+            });
+        return defer.promise;
+    }
+    return false;
+}
+
+function GetUserVoucherReceivedByCampaignId(campaign_id, start_time, end_time) {
+    if (campaign_id) {
+        var defer = q.defer();
+        var query = conn.query(`SELECT COUNT(*) as count, user_voucher.created_at ` +
+            `FROM user_voucher, voucher ` +
+            `WHERE user_voucher.voucher_id = voucher.id AND voucher.campaign_id = "${campaign_id}" ` +
+            `AND user_voucher.created_at >= '${start_time}' AND user_voucher.created_at <= '${end_time}' GROUP BY user_voucher.created_at`,
+            function (err, result) {
+                if (err) {
+                    console.log(err);
+                    defer.reject(err);
+                } else {
+                    defer.resolve(result);
+                }
+            });
+        return defer.promise;
+    }
+    return false;
+}
+
+function GetUserVoucherUsedByCampaignId(campaign_id, start_time, end_time) {
+    if (campaign_id) {
+        var defer = q.defer();
+        var query = conn.query(`SELECT COUNT(*) as count, user_voucher.used_at ` +
+            `FROM user_voucher, voucher ` +
+            `WHERE user_voucher.voucher_id = voucher.id AND voucher.campaign_id = "${campaign_id}" ` +
+            `AND user_voucher.used_at >= '${start_time}' AND user_voucher.used_at <= '${end_time}' GROUP BY user_voucher.used_at`,
             function (err, result) {
                 if (err) {
                     console.log(err);
@@ -64,5 +104,7 @@ function GetUserVoucherByCode(code) {
 module.exports = {
     GetAllUserVoucherByIdPartner: GetAllUserVoucherByIdPartner,
     GetAllUserVoucherByUserId: GetAllUserVoucherByUserId,
-    GetUserVoucherByCode: GetUserVoucherByCode
+    GetUserVoucherByCode: GetUserVoucherByCode,
+    GetUserVoucherReceivedByCampaignId: GetUserVoucherReceivedByCampaignId,
+    GetUserVoucherUsedByCampaignId: GetUserVoucherUsedByCampaignId,
 }
