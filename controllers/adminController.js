@@ -3,6 +3,8 @@ var jwt = require('jsonwebtoken');
 var config = require("config");
 var model = require('../model/model');
 var adminModel = require('../model/adminModel');
+var bannerModel = require('../model/bannerModel');
+const { async } = require('q');
 
 async function adminLogIn(req, res, next) {
     var username = req.body.username;
@@ -56,9 +58,34 @@ async function updatePartner(req, res, next) {
     }
 }
 
+async function createBanner(req, res, next) {
+    var banner = {
+        ...req.body
+    }
+
+    try {
+        await model.Create('banner', banner);
+        res.status(201).json({ message: "Created", banner: banner });
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
+async function deleteBanner(req, res, next) {
+    var banner_id = req.params.id;
+    try {
+        await model.DeleteById('banner', banner_id);
+        res.status(200).json({ message: "Deleted" });
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 module.exports = {
     adminLogIn: adminLogIn,
     getAllUser: getAllUser,
     getAllPartner: getAllPartner,
-    updatePartner: updatePartner
+    updatePartner: updatePartner,
+    createBanner: createBanner,
+    deleteBanner: deleteBanner
 }

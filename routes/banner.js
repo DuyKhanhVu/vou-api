@@ -9,10 +9,4 @@ router.get('/', bannerController.getAllBanner);
 
 router.get('/:id', bannerController.getBannerById);
 
-router.use(middleware.isAuthenticatedPartner);
-
-router.delete('/:id', bannerController.deleteBannerById);
-
-router.patch('/:id', bannerController.updateBannerById);
-
 module.exports = router;
