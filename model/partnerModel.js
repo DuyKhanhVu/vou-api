@@ -20,7 +20,7 @@ function GetPartnerByUsername(username) {
 
 function GetAllPartner() {
     var defer = q.defer();
-    var query = conn.query(`SELECT * FROM user WHERE id IN (SELECT id FROM partner) 
+    var query = conn.query(`SELECT * FROM user WHERE id IN (SELECT id FROM partner WHERE active = true) 
                             AND  id IN (SELECT DISTINCT (partner_id) FROM campaign);`,
         function (err, result) {
             if (err) {
