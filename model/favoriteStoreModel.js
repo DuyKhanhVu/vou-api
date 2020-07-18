@@ -5,8 +5,8 @@ var q = require("q");
 function GetMyFavoriteStore(user_id) {
     if (user_id) {
         var defer = q.defer();
-        var query = conn.query(`SELECT partner.* FROM favorite_store, partner 
-                            WHERE favorite_store.user_id = ${user_id} AND favorite_store.partner_id = partner.id;`,
+        var query = conn.query(`SELECT user.* FROM favorite_store, user 
+                            WHERE favorite_store.user_id = ${user_id} AND favorite_store.partner_id = user.id;`,
             function (err, result) {
                 if (err) {
                     console.log(err);
