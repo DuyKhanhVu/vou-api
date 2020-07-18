@@ -1,5 +1,6 @@
 var model = require('../model/model');
 var puzzleModel = require('../model/puzzleModel');
+var voucherModel = require('../model/voucherModel');
 
 async function createPuzzle(req, res, next) {
     var id = req.user.id;
@@ -227,10 +228,34 @@ async function getTransferPieceHistory(req, res, next) {
     }
 }
 
+async function getVoucher(req, res, next) {
+    var campaign = await model.GetAllByField('campaign', 'partner_id', 1);
+    
+    var result = {}
+    try {
+        result = await voucherModel.GetOneByCampaignId(campaign[0].id);
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+
+    await model.Update("voucher", { available: false }, result.id);
+    user_voucher = {
+        user_id: req.user.id,
+        voucher_id: result.id,
+        available: true,
+        created_at: new Date(),
+    }
+    await model.Create("user_voucher", user_voucher);
+
+    await puzzleModel.UpdatePiecesAfterGetVoucher(req.user.id)
+}
+
 module.exports = {
     createPuzzle: createPuzzle,
     getPuzzle: getPuzzle,
     getNewPiece: getNewPiece,
     transferPiece: transferPiece,
-    getTransferPieceHistory: getTransferPieceHistory
+    getTransferPieceHistory: getTransferPieceHistory,
+    getVoucher: getVoucher,
 }
