@@ -50,7 +50,11 @@ async function createCampaign(req, res, next) {
 
 async function getAllCampaign(req, res, next) {
     try {
-        var result = await campaignModel.GetAllCampaign();
+        if (req.query.type === 'hot') {
+            var result = await campaignModel.GetReceivedVoucher();
+        } else {
+            var result = await campaignModel.GetAllCampaign();
+        }
         res.status(200).json(result)
     } catch (err) {
         res.status(400).json(err)
@@ -82,10 +86,21 @@ async function updateCampaignById(req, res, next) {
     var campaign = {
         ...req.body
     }
+
     try {
-        var result = await model.Update("campaign", campaign, id);
+        await model.Update("campaign", campaign, id);
+
+        var voucher = {}
+        if (campaign.discount) {
+            voucher.discount = campaign.discount;
+        }
+
+        if (campaign.description) {
+            voucher.description = campaign.description;
+        }
+        await campaignModel.UpdateAllVoucherByCampaignId(id, voucher);
         campaign.id = id;
-        res.status(200).json(campaign)
+        res.status(200).json({message: "Updated", campaign})
     } catch (err) {
         res.status(400).json(err)
     }
