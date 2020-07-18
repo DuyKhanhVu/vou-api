@@ -9,6 +9,8 @@ router.use(middleware.isAuthenticatedAdmin);
 
 router.get('/user', adminController.getAllUser);
 
+router.get('/partner', adminController.getAllPartner);
+
 router.patch('/partner/:id', adminController.updatePartner);
 
 module.exports = router;

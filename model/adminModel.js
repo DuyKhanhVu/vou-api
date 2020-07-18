@@ -1,7 +1,6 @@
 var db = require("../common/database");
 var conn = db.getConnection();
 var q = require("q");
-const { GetAll } = require("./model");
 
 function GetAllUser() {
     var defer = q.defer();

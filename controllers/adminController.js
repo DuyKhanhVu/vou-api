@@ -33,6 +33,15 @@ async function getAllUser(req, res, next) {
     }
 }
 
+async function getAllPartner(req, res, next) {
+    try {
+        var result = await model.GetAll('partner');
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 async function updatePartner(req, res, next) {
     var partner_id = req.params.id;
     partner = {
@@ -50,5 +59,6 @@ async function updatePartner(req, res, next) {
 module.exports = {
     adminLogIn: adminLogIn,
     getAllUser: getAllUser,
+    getAllPartner: getAllPartner,
     updatePartner: updatePartner
 }
