@@ -38,10 +38,10 @@ async function getVoucherByCampaignId(req, res, next) {
     var data = JSON.stringify({
         username: req.user.username,
         display_name: req.user.display_name,
-        partner_id: req.body.partner_id,
+        partner_id: req.query.partner_id,
         campaign_id: campaign_id,
-        score: req.body.score,
-        game: req.body.game,
+        score: req.query.score,
+        game: req.query.game,
         created_at: new Date()
     })
     console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS)

@@ -10,5 +10,6 @@
         "user": "qv019aMJ2q",
         "password": "PkZFcze6h1"
     },
-    "jwtSecret": "vou-app-jwtsecret"
+    "jwtSecret": "vou-app-jwtsecret",
+    "topic_path": "projects/vou-app-278013/topics/vou-app"
 }
