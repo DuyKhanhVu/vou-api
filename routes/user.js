@@ -14,4 +14,7 @@ router.get('/:id', userController.getUserById);
 router.patch('/me', userController.updateMyProfile);
 
 router.get('/voucher/me', userController.getAllMyVoucher);
+
+router.patch('/change-password', userController.changePassword);
+
 module.exports = router;

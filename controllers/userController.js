@@ -1,5 +1,7 @@
+const bcrypt = require('bcrypt');
 var model = require('../model/model');
 var userVoucherModel = require('../model/userVoucherModel');
+var userModel = require('../model/userModel');
 
 async function getMyProfile(req, res, next) {
     delete req.user.password
@@ -53,10 +55,36 @@ async function getAllMyVoucher(req, res, next) {
     }
 }
 
+async function changePassword(req, res, next) {
+    var username = req.user.username;
+    var oldPassword = req.body.old_password;
+    var newPassword = req.body.new_password;
+    var confirmPassword = req.body.confirm_password;
+
+    if (newPassword === confirmPassword) {
+        var user = await userModel.GetUserByUsername(username);
+        if (bcrypt.compareSync(oldPassword, user.password)) {
+            var salt = 8;
+            var newPasswordHash = await bcrypt.hash(newPassword, salt);
+            try {
+                await model.Update('user', { password: newPasswordHash }, req.user.id)
+                res.status(200).json({ message: "Change password is successfully" })
+            } catch (err) {
+                res.status(400).json(err)
+            }
+        } else {
+            return res.status(400).json({ message: 'The old password you entered is incorrect.' })
+        }
+    } else {
+        return res.status(400).json({ message: 'The confirm password you entered is not match.' })
+    }
+}
+
 module.exports = {
     getMyProfile: getMyProfile,
     getUserById: getUserById,
     getUserByUsername: getUserByUsername,
     updateMyProfile: updateMyProfile,
+    changePassword: changePassword,
     getAllMyVoucher: getAllMyVoucher
 }
