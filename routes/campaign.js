@@ -3,9 +3,9 @@ var router = express.Router();
 var campaignController = require('../controllers/campaignController');
 var middleware = require('../middleware/authMiddleware');
 
-router.use(middleware.isAuthenticated);
-
 router.get('/', campaignController.getAllCampaign);
+
+router.use(middleware.isAuthenticated);
 
 router.get('/:id', campaignController.getCampaignById);
 

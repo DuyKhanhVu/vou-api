@@ -3,8 +3,6 @@ var jwt = require('jsonwebtoken');
 var config = require("config");
 var model = require('../model/model');
 var adminModel = require('../model/adminModel');
-var bannerModel = require('../model/bannerModel');
-const { async } = require('q');
 
 async function adminLogIn(req, res, next) {
     var username = req.body.username;
