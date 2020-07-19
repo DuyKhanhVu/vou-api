@@ -1,6 +1,10 @@
+var path = require('path');
 var model = require('../model/model');
 var voucherModel = require('../model/voucherModel');
 var userVoucherModel = require('../model/userVoucherModel');
+const { PubSub } = require('@google-cloud/pubsub');
+const pubSubClient = new PubSub();
+process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve(__dirname, '/config/google_credential.json')
 
 async function getVoucherById(req, res, next) {
     var id = req.params.id;
@@ -30,6 +34,21 @@ async function getVoucherByCampaignId(req, res, next) {
         created_at: new Date(),
     }
     await model.Create("user_voucher", user_voucher);
+
+    var data = JSON.stringify({
+        username: req.user.username,
+        display_name: req.user.display_name,
+        partner_id: req.body.partner_id,
+        campaign_id: campaign_id,
+        score: req.body.score,
+        game: req.body.game,
+        created_at: new Date()
+    })
+    console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS)
+    console.log(data);
+    const dataBuffer = Buffer.from(data);
+    await pubSubClient.topic('projects/vou-app-278013/topics/vou-app').publish(dataBuffer);
+    
 }
 
 async function updateVoucherById(req, res, next) {
