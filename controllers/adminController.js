@@ -35,7 +35,7 @@ async function getAllUser(req, res, next) {
 
 async function getAllPartner(req, res, next) {
     try {
-        var result = await model.GetAll('partner');
+        var result = await adminModel.GetAllPartner();
         res.status(200).json(result);
     } catch (err) {
         res.status(400).json(err)
