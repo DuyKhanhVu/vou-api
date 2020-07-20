@@ -51,6 +51,7 @@ async function signUp(req, res, next) {
             result = await model.Create('user', user);
             if (req.body.is_partner) {
                 user.id = result.insertId;
+                await model.Update('user', {role: 'partner'}, user.id);
                 await model.Create('partner', user);
             }
             res.status(200).json({ message: `You have successfully created your account`, user: user })
