@@ -244,6 +244,9 @@ async function getVoucher(req, res, next) {
         user_id: req.user.id,
         voucher_id: result.id,
         available: true,
+        partner_id: req.query.partner_id,
+        score: req.query.score,
+        game: req.query.game,
         created_at: new Date(),
     }
     await model.Create("user_voucher", user_voucher);
