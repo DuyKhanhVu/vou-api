@@ -3,6 +3,7 @@ var jwt = require('jsonwebtoken');
 var config = require("config");
 var model = require('../model/model');
 var adminModel = require('../model/adminModel');
+const bannerModel = require('../model/bannerModel');
 
 async function adminLogIn(req, res, next) {
     var username = req.body.username;
@@ -63,7 +64,8 @@ async function createBanner(req, res, next) {
 
     try {
         await model.Create('banner', banner);
-        res.status(201).json({ message: "Created", banner: banner });
+        var result = await bannerModel.GetAllBanner();
+        res.status(201).json({ message: "Created", banners: result });
     } catch (err) {
         res.status(400).json(err)
     }
