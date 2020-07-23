@@ -9,6 +9,16 @@ async function getAllGame(req, res, next) {
     }
 }
 
+async function getGameById(req, res, next) {
+    try {
+        var result = await model.GetById('game', req.params.id);
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 module.exports = {
-    getAllGame: getAllGame
+    getAllGame: getAllGame,
+    getGameById: getGameById
 }

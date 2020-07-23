@@ -81,11 +81,52 @@ async function deleteBanner(req, res, next) {
     }
 }
 
+async function createGame(req, res, next) {
+    var game = {
+        ...req.body
+    }
+
+    try {
+        await model.Create('game', game);
+        var result = await model.GetAll('game');
+        res.status(201).json({ message: "Created", games: result });
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
+async function updateGame(req, res, next) {
+    var game_id = req.params.id;
+    var game = {
+        ...req.body
+    }
+
+    try {
+        await model.Update('game', game, game_id);
+        res.status(200).json({ message: "Updated successfully" })
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
+async function deleteGame(req, res, next) {
+    var game_id = req.params.id;
+    try {
+        await model.DeleteById('game', game_id);
+        res.status(200).json({ message: "Deleted" });
+    } catch (err) {
+        res.status(400).json(err)
+    }
+}
+
 module.exports = {
     adminLogIn: adminLogIn,
     getAllUser: getAllUser,
     getAllPartner: getAllPartner,
     updatePartner: updatePartner,
     createBanner: createBanner,
-    deleteBanner: deleteBanner
+    deleteBanner: deleteBanner,
+    createGame: createGame,
+    updateGame: updateGame,
+    deleteGame: deleteGame
 }

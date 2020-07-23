@@ -17,4 +17,10 @@ router.post('/banner', adminController.createBanner);
 
 router.delete('/banner/:id', adminController.deleteBanner);
 
+router.post('/game', adminController.createGame);
+
+router.patch('/game/:id', adminController.updateGame);
+
+router.delete('/game/:id', adminController.deleteGame);
+
 module.exports = router;
