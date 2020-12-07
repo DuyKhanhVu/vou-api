@@ -6,9 +6,9 @@
     "mysql": {
         "host": "remotemysql.com",
         "port": 3306,
-        "database": "qv019aMJ2q",
-        "user": "qv019aMJ2q",
-        "password": "PkZFcze6h1"
+        "database": "cSSdnfRAaS",
+        "user": "cSSdnfRAaS",
+        "password": "k40fbxQACx"
     },
     "jwtSecret": "vou-app-jwtsecret",
     "topic_path": "projects/vou-app-278013/topics/vou-app"
